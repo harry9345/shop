@@ -19,7 +19,8 @@ html,
 body,
 #root,
 .App,
-.main {
+.main,
+.fullHeight {
   height: 100%;
 }
 body {
@@ -41,7 +42,7 @@ a:hover {
 
 .main {
   width: 100%;
-  height: calc(100%-6.5rem);
+  height: calc(100% - 6.5rem);
   max-width: 1450px;
   padding: 0 10px;
   margin: 0 auto;

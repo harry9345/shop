@@ -17,10 +17,35 @@
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     transform: translateY(-50%);
+
+    img {
+      display: block;
+      width: 100%;
+      margin: 0;
+    }
   }
-  img {
-    display: block;
-    width: 100%;
-    margin: 0;
+  .callToAction {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      list-style-type: none;
+      a {
+        font-size: 1.8rem;
+        line-height: 1;
+        color: red;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+    }
   }
 }
