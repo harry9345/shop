@@ -10,6 +10,7 @@ import HomePageLayout from "./layouts/HomePageLayout";
 import HomePage from "./pages/HomePage";
 import Registration from "./pages/Registration/index";
 import Login from "./pages/Login/Login";
+import Recovery from "./pages/Recovery/Recovery";
 
 import "./default.scss";
 
@@ -86,6 +87,14 @@ class App extends Component {
                 </MainLayout>
               )
             }
+          />
+          <Route
+            path="/recovery"
+            render={() => (
+              <MainLayout currentUser={currentUser}>
+                <Recovery />
+              </MainLayout>
+            )}
           />
         </Switch>
       </div>
