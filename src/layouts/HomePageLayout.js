@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import Footer from "../components/Footer/Footer";
 
-export default function MainLayout(props) {
+const HomePageLayout = (props) => {
   return (
     <div className="fullHeight">
       <Header {...props} />
@@ -10,4 +10,5 @@ export default function MainLayout(props) {
       <Footer />
     </div>
   );
-}
+};
+export default HomePageLayout;

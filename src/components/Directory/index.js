@@ -8,10 +8,10 @@ export default function Directory(props) {
     <div className="directory">
       <div className="wrap">
         <div className="item" style={{ backgroundImage: `url(${shopWomens})` }}>
-          <a>shop women</a>
+          <a href="/"> shop women</a>
         </div>
         <div className="item" style={{ backgroundImage: `url(${shopMan})` }}>
-          <a> shop mens</a>
+          <a href="/"> shop mens</a>
         </div>
       </div>
     </div>

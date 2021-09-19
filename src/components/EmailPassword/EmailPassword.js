@@ -1,35 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  resetPassword,
+  resetAllAuthForms,
+} from "../../redux/user/user.actions";
 
 import "./emailPassword.scss";
 import AuthWrapper from "../AuthWrapper/AuthWrapper";
-import FormInput from "../forms/form/Form";
+import FormInput from "../forms/FormInput/FormInPut";
 import Button from "../forms/Button/Button";
 
-import { auth } from "../../firebase/utils";
+const mapState = ({ user }) => ({
+  resetPasswordSuccess: user.resetPasswordSuccess,
+  resetPasswordError: user.resetPasswordError,
+});
 
 const EmailPassword = (props) => {
+  const dispatch = useDispatch();
+  const { resetPasswordError, resetPasswordSuccess } = useSelector(mapState);
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const config = {
-      url: "http://localhost:3000/login",
-    };
-    try {
-      await auth
-        .sendPasswordResetEmail(email, config)
-        .then(() => {
-          props.history.push("/login");
-        })
-        .catch(() => {
-          const err = ["Email not found, please try again !!"];
-          setErrors(err);
-        });
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (resetPasswordSuccess) {
+      dispatch(resetAllAuthForms());
+      props.history.push("/login");
     }
+  }, [resetPasswordSuccess]);
+
+  useEffect(() => {
+    if (Array.isArray(resetPasswordError) && resetPasswordError.lenght > 0) {
+      setErrors(resetPasswordError);
+    }
+  }, [resetPasswordError]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(resetPassword({ email }));
   };
 
   const configAuthWrapper = {
@@ -44,7 +52,7 @@ const EmailPassword = (props) => {
           })}
         </ul>
       )}
-      <div className="forrmWrap">
+      <div className="formWrap">
         <form onSubmit={handleSubmit}>
           <FormInput
             type="email"

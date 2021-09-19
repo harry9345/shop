@@ -1,36 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInUser,
+  signInWithGoogle,
+  resetAllAuthForms,
+} from "../../redux/user/user.actions";
 
 import "./signIn.scss";
 import Button from "../forms/Button/Button";
 
-import { signInWithGoogle, auth } from "../../firebase/utils";
-import FormInput from "../forms/form/Form";
+import FormInput from "../forms/FormInput/FormInPut";
 import AuthWrapper from "../AuthWrapper/AuthWrapper";
 
+const mapState = ({ user }) => ({
+  signInSuccess: user.signInSuccess,
+});
+
 const SignIn = (props) => {
+  const { signInSuccess } = useSelector(mapState);
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (signInSuccess) {
+      resetForm();
+      dispatch(resetAllAuthForms());
+      props.history.push("/");
+    }
+  }, [signInSuccess]);
+
   const resetForm = () => {
     setPassword("");
     setEmail("");
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
-      resetForm();
+    dispatch(signInUser(email, password));
+  };
 
-      props.history.push("/");
-    } catch (error) {
-      console.log(error);
-    }
+  const handleGoogleSignIn = () => {
+    dispatch(signInWithGoogle());
   };
 
   const configAuthWrapper = {
     headline: "Login",
   };
+
   return (
     <AuthWrapper {...configAuthWrapper}>
       <div className="formWrap">
@@ -52,7 +71,7 @@ const SignIn = (props) => {
           <Button type="submit">Login</Button>
           <div className="socialSignIn">
             <div className="row">
-              <Button onClick={signInWithGoogle}>Sign in with Google</Button>
+              <Button onClick={handleGoogleSignIn}>Sign in with Google</Button>
             </div>
           </div>
           <div className="links">

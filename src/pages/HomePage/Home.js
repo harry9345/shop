@@ -1,7 +1,7 @@
 import React from "react";
 import Directory from "../../components/Directory";
 
-import "./style.scss";
+import "./home.scss";
 
 export default function HomePage(props) {
   return (
