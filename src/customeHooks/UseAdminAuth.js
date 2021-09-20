@@ -1,22 +1,22 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
+import { checkUserAdmin } from "../utils/Utils";
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
 });
 
-const useAuth = (props) => {
+const UseAdminAuth = (props) => {
   const { currentUser } = useSelector(mapState);
   const history = useHistory();
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!checkUserAdmin(currentUser)) {
       history.push("/login");
     }
   }, [currentUser]);
-
   return currentUser;
 };
 
-export default useAuth;
+export default UseAdminAuth;

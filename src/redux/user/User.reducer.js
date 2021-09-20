@@ -2,56 +2,37 @@ import userTypes from "./User.types";
 
 const INITIAL_STATE = {
   currentUser: null,
-  signInSuccess: false,
-  signUpError: [],
-  signUpSuccess: false,
   resetPasswordSuccess: false,
-  resetPasswordError: [],
+  userErr: [],
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case userTypes.SET_CURRENT_USER:
-      return {
-        ...state,
-        currentUser: action.playload,
-      };
     case userTypes.SIGN_IN_SUCCESS:
       return {
         ...state,
-        signInSuccess: action.playload,
-      };
-    case userTypes.SIGN_UP_ERROR:
-      return {
-        ...state,
-        signUpError: action.playload,
-      };
-    case userTypes.SIGN_UP_SUCCESS:
-      return {
-        ...state,
-        signUpSuccess: action.playload,
+        currentUser: action.payload,
+        userErr: [],
       };
     case userTypes.RESET_PASSWORD_SUCCESS:
       return {
         ...state,
-        resetPasswordSuccess: action.playload,
+        resetPasswordSuccess: action.payload,
       };
-    case userTypes.RESET_PASSWPRD_ERROR:
+    case userTypes.USER_ERROR:
       return {
         ...state,
-        resetPasswordError: action.playload,
+        userErr: action.payload,
       };
-    case userTypes.RESET_AUTH_FORMS:
+    case userTypes.RESET_USER_STATE:
+    case userTypes.SIGN_OUT_USER_SUCCESS:
       return {
         ...state,
-        signInSuccess: false,
-        signUpError: [],
-        signUpSuccess: false,
-        resetPasswordSuccess: false,
-        resetPasswordError: [],
+        ...INITIAL_STATE,
       };
     default:
       return state;
   }
 };
+
 export default userReducer;

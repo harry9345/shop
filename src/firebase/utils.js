@@ -28,8 +28,8 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
         displayName,
         email,
         createdDate: timestamp,
-        userRoles,
         ...additionalData,
+        userRoles,
       });
     } catch (err) {
       console.log(err);
@@ -37,4 +37,13 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
   }
 
   return userRef;
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
 };

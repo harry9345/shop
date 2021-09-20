@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { auth, handleUserProfile } from "./firebase/utils";
-import { setCurrentUser } from "./redux/user/user.actions";
+import { Switch, Route } from "react-router-dom";
+import { checkUserSession } from "./redux/user/user.actions";
+
+//components
+import AdminToolBar from "./components/adminToolBar/AdminToolBar";
 
 //hoc
 import WithAuth from "./HOC/WithAuth";
+import WithAdminAuth from "./HOC/WithAdminAuth";
 
 // layouts
 import MainLayout from "./layouts/MainLayout";
@@ -17,6 +20,7 @@ import Registration from "./pages/Registration/Registration";
 import Login from "./pages/Login/Login";
 import Recovery from "./pages/Recovery/Recovery";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import Admin from "./pages/Admin/Admin";
 
 import "./default.scss";
 
@@ -24,27 +28,12 @@ const App = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const authListener = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await handleUserProfile(userAuth);
-        // userRef.onSnapshot((snapshot) => {
-        //   dispatch(
-        //     setCurrentUser({
-        //       id: snapshot.id,
-        //       ...snapshot.data(),
-        //     })
-        //   );
-        // });
-      }
-      dispatch(setCurrentUser(userAuth));
-    });
-    return () => {
-      authListener();
-    };
+    dispatch(checkUserSession);
   }, []);
 
   return (
     <div className="App">
+      <AdminToolBar />
       <Switch>
         <Route
           exact
@@ -79,6 +68,7 @@ const App = (props) => {
             </MainLayout>
           )}
         />
+
         <Route
           path="/dashboard"
           render={() => (
@@ -87,6 +77,16 @@ const App = (props) => {
                 <Dashboard />
               </MainLayout>
             </WithAuth>
+          )}
+        />
+        <Route
+          path="/admin"
+          render={() => (
+            <WithAdminAuth>
+              <MainLayout>
+                <Admin />
+              </MainLayout>
+            </WithAdminAuth>
           )}
         />
       </Switch>
