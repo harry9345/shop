@@ -5,6 +5,7 @@ import { checkUserSession } from "./redux/user/user.actions";
 
 //components
 import AdminToolBar from "./components/adminToolBar/AdminToolBar";
+import AdminLayout from "./layouts/AdminLayout";
 
 //hoc
 import WithAuth from "./HOC/WithAuth";
@@ -83,9 +84,9 @@ const App = (props) => {
           path="/admin"
           render={() => (
             <WithAdminAuth>
-              <MainLayout>
+              <AdminLayout>
                 <Admin />
-              </MainLayout>
+              </AdminLayout>
             </WithAdminAuth>
           )}
         />

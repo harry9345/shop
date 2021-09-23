@@ -1,26 +1,28 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { checkUserAdmin } from "../../utils/Utils";
+import { checkUserIsAdmin } from "./../../utils/Utils";
 import "./adminToolBar.scss";
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
 });
 
-export default function AdminToolBar(props) {
+const AdminToolbar = (props) => {
   const { currentUser } = useSelector(mapState);
 
-  const isAdmin = checkUserAdmin(currentUser);
+  const isAdmin = checkUserIsAdmin(currentUser);
   if (!isAdmin) return null;
 
   return (
-    <div className="adminToolBar">
+    <div className="adminToolbar">
       <ul>
         <li>
-          <Link to="/admin">My Admin</Link>
+          <Link to="/admin">My admin</Link>
         </li>
       </ul>
     </div>
   );
-}
+};
+
+export default AdminToolbar;
