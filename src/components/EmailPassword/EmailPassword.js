@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetPasswordStart,
@@ -15,13 +15,12 @@ const mapState = ({ user }) => ({
   resetPasswordSuccess: user.resetPasswordSuccess,
   userError: user.userError,
 });
-
-const EmailPassword = () => {
+const EmailPassword = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { resetPasswordSuccess, userError } = useSelector(mapState);
+  const { resetPasswordSuccess, userErr } = useSelector(mapState);
   const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     if (resetPasswordSuccess) {
@@ -31,10 +30,10 @@ const EmailPassword = () => {
   }, [resetPasswordSuccess]);
 
   useEffect(() => {
-    if (Array.isArray(userError) && userError.lenght > 0) {
-      setErrors(userError);
+    if (Array.isArray(userErr) && userErr.length > 0) {
+      setErrors(userErr);
     }
-  }, [userError]);
+  }, [userErr]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,16 +43,18 @@ const EmailPassword = () => {
   const configAuthWrapper = {
     headline: "Email Password",
   };
+
   return (
     <AuthWrapper {...configAuthWrapper}>
-      {errors.length > 0 && (
-        <ul>
-          {errors.map((e, index) => {
-            return <li key={index}>{e}</li>;
-          })}
-        </ul>
-      )}
       <div className="formWrap">
+        {errors.length > 0 && (
+          <ul>
+            {errors.map((e, index) => {
+              return <li key={index}>{e}</li>;
+            })}
+          </ul>
+        )}
+
         <form onSubmit={handleSubmit}>
           <FormInput
             type="email"
@@ -62,8 +63,15 @@ const EmailPassword = () => {
             placeholder="Email"
             handleChange={(e) => setEmail(e.target.value)}
           />
+
           <Button type="submit">Email Password</Button>
         </form>
+
+        <div className="links">
+          <Link to="/login">LogIn</Link>
+          {` | `}
+          <Link to="/registration">Register</Link>
+        </div>
       </div>
     </AuthWrapper>
   );

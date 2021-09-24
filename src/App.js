@@ -17,6 +17,7 @@ import HomePageLayout from "./layouts/HomePageLayout";
 
 // pages
 import HomePage from "./pages/HomePage/Home";
+import Search from "./pages/search/Search";
 import Registration from "./pages/Registration/Registration";
 import Login from "./pages/Login/Login";
 import Recovery from "./pages/Recovery/Recovery";
@@ -43,6 +44,15 @@ const App = (props) => {
             <HomePageLayout>
               <HomePage />
             </HomePageLayout>
+          )}
+        />
+        <Route
+          exact
+          path="/search"
+          render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
           )}
         />
         <Route

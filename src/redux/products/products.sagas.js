@@ -1,6 +1,6 @@
 import { auth } from "../../firebase/utils";
 import { takeLatest, put, call, all } from "redux-saga/effects";
-import { setProducts, setProduct, fetchProductsStart } from "./products.action";
+import { setProducts, fetchProductsStart } from "./products.action";
 import {
   handleAddProduct,
   handleFetchProducts,
@@ -45,7 +45,7 @@ export function* deleteProduct({ payload }) {
     yield handleDeleteProduct(payload);
     yield put(fetchProductsStart());
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
@@ -53,10 +53,24 @@ export function* onDeleteProductStart() {
   yield takeLatest(productsTypes.DELETE_PRODUCT_START, deleteProduct);
 }
 
-export default function* productSagas() {
+// export function* fetchProduct({ payload }) {
+//   try {
+//     const product = yield handleFetchProduct(payload);
+//     yield put(setProduct(product));
+//   } catch (err) {
+//     // console.log(err);
+//   }
+// }
+
+// export function* onFetchProductStart() {
+//   yield takeLatest(productsTypes.FETCH_PRODUCT_START, fetchProduct);
+// }
+
+export default function* productsSagas() {
   yield all([
     call(onAddProductStart),
     call(onFetchProductsStart),
     call(onDeleteProductStart),
+    // call(onFetchProductStart),
   ]);
 }

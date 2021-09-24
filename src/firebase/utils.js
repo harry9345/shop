@@ -28,11 +28,11 @@ export const handleUserProfile = async ({ userAuth, additionalData }) => {
         displayName,
         email,
         createdDate: timestamp,
-        ...additionalData,
         userRoles,
+        ...additionalData,
       });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }
 

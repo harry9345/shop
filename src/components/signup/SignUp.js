@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { signUpUserStart } from "../../redux/user/user.actions";
 import "./signup.scss";
 
@@ -13,10 +13,10 @@ const mapState = ({ user }) => ({
   userError: user.userError,
 });
 
-const SignUp = () => {
+const Signup = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { currentUser, userError } = useSelector(mapState);
+  const { currentUser, userErr } = useSelector(mapState);
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,26 +25,27 @@ const SignUp = () => {
 
   useEffect(() => {
     if (currentUser) {
-      resetForm();
+      reset();
       history.push("/");
     }
   }, [currentUser]);
 
   useEffect(() => {
-    if (Array.isArray(userError) && userError.length > 0) {
-      setErrors(userError);
+    if (Array.isArray(userErr) && userErr.length > 0) {
+      setErrors(userErr);
     }
-  }, [userError]);
+  }, [userErr]);
 
-  const resetForm = () => {
-    setPassword("");
-    setEmail("");
-    setConfirmPassword("");
+  const reset = () => {
     setDisplayName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setErrors([]);
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
     dispatch(
       signUpUserStart({
         displayName,
@@ -56,8 +57,9 @@ const SignUp = () => {
   };
 
   const configAuthWrapper = {
-    headline: "Registeration",
+    headline: "Registration",
   };
+
   return (
     <AuthWrapper {...configAuthWrapper}>
       <div className="formWrap">
@@ -68,6 +70,7 @@ const SignUp = () => {
             })}
           </ul>
         )}
+
         <form onSubmit={handleFormSubmit}>
           <FormInput
             type="text"
@@ -76,31 +79,42 @@ const SignUp = () => {
             placeholder="Full name"
             handleChange={(e) => setDisplayName(e.target.value)}
           />
+
           <FormInput
             type="email"
             name="email"
             value={email}
-            placeholder="Your Email"
+            placeholder="Email"
             handleChange={(e) => setEmail(e.target.value)}
           />
+
           <FormInput
             type="password"
             name="password"
             value={password}
-            placeholder="Your Password"
+            placeholder="Password"
             handleChange={(e) => setPassword(e.target.value)}
           />
+
           <FormInput
             type="password"
             name="confirmPassword"
             value={confirmPassword}
-            placeholder="Confirm Your Password"
+            placeholder="Confirm Password"
             handleChange={(e) => setConfirmPassword(e.target.value)}
           />
+
           <Button type="submit">Register</Button>
         </form>
+
+        <div className="links">
+          <Link to="/login">LogIn</Link>
+          {` | `}
+          <Link to="/recovery">Reset Password</Link>
+        </div>
       </div>
     </AuthWrapper>
   );
 };
-export default SignUp;
+
+export default Signup;

@@ -4,6 +4,7 @@ export const handleResetPasswordAPI = (email) => {
   const config = {
     url: "http://localhost:3000/login",
   };
+
   return new Promise((resolve, reject) => {
     auth
       .sendPasswordResetEmail(email, config)
@@ -11,7 +12,7 @@ export const handleResetPasswordAPI = (email) => {
         resolve();
       })
       .catch(() => {
-        const err = ["Email not found, please try again !!"];
+        const err = ["Email not found. Please try again."];
         reject(err);
       });
   });

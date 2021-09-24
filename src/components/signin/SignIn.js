@@ -16,7 +16,7 @@ const mapState = ({ user }) => ({
   currentUser: user.currentUser,
 });
 
-const SignIn = () => {
+const SignIn = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { currentUser } = useSelector(mapState);
@@ -31,13 +31,13 @@ const SignIn = () => {
   }, [currentUser]);
 
   const resetForm = () => {
-    setPassword("");
     setEmail("");
+    setPassword("");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(emailSignInStart(email, password));
+    dispatch(emailSignInStart({ email, password }));
   };
 
   const handleGoogleSignIn = () => {
@@ -45,7 +45,7 @@ const SignIn = () => {
   };
 
   const configAuthWrapper = {
-    headline: "Login",
+    headline: "LogIn",
   };
 
   return (
@@ -59,6 +59,7 @@ const SignIn = () => {
             placeholder="Email"
             handleChange={(e) => setEmail(e.target.value)}
           />
+
           <FormInput
             type="password"
             name="password"
@@ -66,18 +67,24 @@ const SignIn = () => {
             placeholder="Password"
             handleChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit">Login</Button>
-          <div className="socialSignIn">
+
+          <Button type="submit">LogIn</Button>
+
+          <div className="socialSignin">
             <div className="row">
               <Button onClick={handleGoogleSignIn}>Sign in with Google</Button>
             </div>
           </div>
+
           <div className="links">
-            <Link to="/recovery"> Reset Your Password</Link>
+            <Link to="/registration">Register</Link>
+            {` | `}
+            <Link to="/recovery">Reset Password</Link>
           </div>
         </form>
       </div>
     </AuthWrapper>
   );
 };
+
 export default SignIn;
